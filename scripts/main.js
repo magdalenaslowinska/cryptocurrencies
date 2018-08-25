@@ -1,5 +1,9 @@
 import { initialize as initializeTable } from './table-control.js';
-import { loadCryptoCurrencies } from './data-loader.js';
+import { fetchData } from './data-loader.js';
 
-initializeTable('crypto-table', loadCryptoCurrencies());
+fetchData().then(
+    data => {
+        initializeTable('crypto-table', Object.values(data));
+    }
+)
 

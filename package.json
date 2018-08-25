@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "license": "UNLICENSED",
     "scripts": {
-        "server": "node node_modules/http-server/bin/http-server"
+        "server": "node node_modules/http-server/bin/http-server --cors"
     },
     "dependencies": {
         "http-server": "^0.11.1"
