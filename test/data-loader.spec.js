@@ -78,6 +78,7 @@ describe('Data Loader', function () {
         const pricingResponse = getPricingDataResponse(['sym1', 'sym2', 'sym3']);
         fetchStub.withArgs(coinListUrl).returns(Promise.resolve(responseCoinListOk));
         fetchStub.withArgs(getPricingUrl(['sym1', 'sym2', 'sym3'])).returns(Promise.resolve(pricingResponse));
+        
         const data = await fetchData();
 
         chai.expect(data.length).to.equal(3);
