@@ -37,18 +37,18 @@ function toggleSpinner(on) {
 export function sort(target, columnIndex) {
     const sortedAsc = target.classList.contains('sorted-asc');
     clearSortingClasses();
-    const sortType = target.dataset.sortType; //todo
+    const sortType = target.dataset.sort;
     
     if (sortedAsc) {
         //sort desc
         target.classList.add('sorted-desc');
         target.classList.remove('sorted-asc');
-        sortTable('crypto-table', columnIndex, -1);
+        sortTable('crypto-table', columnIndex, -1, sortType);
     } else {
         //sort asc
         target.classList.remove('sorted-desc');
         target.classList.add('sorted-asc');
-        sortTable('crypto-table', columnIndex, 1);
+        sortTable('crypto-table', columnIndex, 1, sortType);
     }
 }
 

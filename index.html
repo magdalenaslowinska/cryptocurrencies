@@ -17,11 +17,11 @@
             <col width="20%"/>
             <thead>
                 <tr>
-                    <th onclick="sort(this, 0)">Name</th>
-                    <th onclick="sort(this, 1)">Symbol</th>
-                    <th onclick="sort(this, 2)">Price</th>
+                    <th data-sort='text' onclick="sort(this, 0)">Name</th>
+                    <th data-sort='text' onclick="sort(this, 1)">Symbol</th>
+                    <th data-sort='currency' onclick="sort(this, 2)">Price</th>
                     <th>Market Cap</th>
-                    <th onclick="sort(this, 4)">Price Trend</th>
+                    <th data-sort='currency' onclick="sort(this, 4)">Price Trend</th>
                 </tr>
             </thead>
             <tbody></tbody>

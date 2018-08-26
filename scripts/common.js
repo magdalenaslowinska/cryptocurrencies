@@ -28,3 +28,4 @@ export function extendDictionaryWithProperties(destination, source, properties) 
     });
     return destination;
 }
+
