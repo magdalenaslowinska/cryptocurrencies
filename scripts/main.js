@@ -5,11 +5,9 @@ const propertyNames = ['name', 'symbol', 'price', 'marketCap', 'priceTrend'];
 const searchByNameText = 'Search by name';
 const searchBySymbolText = 'Search by symbol';
 
-window.sort = sort;
-window.clearInput = clearInput;
+
+setGlobalEvents();
 subscribeToEvents();
-// initializeTable('crypto-table', [], propertyNames);
-// toggleSpinner(false);
 toggleSpinner(true);
 
 fetchData().then(
@@ -17,7 +15,13 @@ fetchData().then(
         initializeTable('crypto-table', Object.values(data), propertyNames);
         toggleSpinner(false);
     }
-)
+);
+
+
+function setGlobalEvents() {
+    window.sort = sort;
+    window.clearInput = clearInput;
+}
 
 function toggleSpinner(on) {
     const tableElement = document.getElementById('crypto-table');

@@ -1,7 +1,7 @@
 import chai from 'chai';
 import {splitTableToChunks, extendDictionaryWithProperties} from '../scripts/common.js';
 
-describe('splitTableToChunks function', function () {
+describe('splitTableToChunks', function () {
     it('should return table of chunks when chunk size is less than table size', () => {
         const table = [1, 2, 3, 4, 5];
         const result = splitTableToChunks(table, 2);
@@ -27,7 +27,7 @@ describe('splitTableToChunks function', function () {
     });
 });
 
-describe('extendDictionaryWithProperties function', () => {
+describe('extendDictionaryWithProperties', () => {
     it('should copy matching properties from destination to source object', () => {
         const destObject = {key: {prop3: '789'}};
         const sourceObject = {key: { prop1: '123', prop2: '456'}};

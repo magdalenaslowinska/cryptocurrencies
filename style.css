@@ -100,12 +100,33 @@ input.active-filter {
 
 h1 { 
     color: #333; 
-    line-height: 48px; 
-    margin: 0; 
 }
 h2 { 
     color: #333; 
     font-size: 1.3rem; 
-    margin: 0 0 24px; 
+    margin: 0 0 1rem; 
     font-weight: normal;
 }
+
+html {
+    font-size: 100%;
+    font-family: Arial;
+}
+
+@media screen and (max-width: 1024px) {
+    #inputName, #inputSymbol {
+        width: 49%;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    html {
+        font-size: 80%;
+    }
+    #inputName, #inputSymbol {
+        width: 49%;
+    }
+    .filters, .header-container, table {
+        width: 90%;
+    }
+  }
