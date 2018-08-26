@@ -1,41 +1,42 @@
+import { splitTableToChunks, extendDictionaryWithProperties } from './common.js';
 
-const chunkSize = 50;
-
-export function fetchData() {
-
-    return new Promise((resolve, reject) => {
-        let namesAndSymbols = [];
-        fetch('https://min-api.cryptocompare.com/data/all/coinlist')
-            .then(response => {
-                return response.json();
-            })
-            .then(body => {
-                if (body.Response === 'Success') {
-                    return getNamesAndSymbols(body.Data);
-                } else {
-                    reject('Error message');
-                }
-            })
-            .then(result => {
-                namesAndSymbols = result;
-                return getPricingInfo(Object.keys(result));
-            })
-            .then(results => {
-                const pricing = Object.assign([], ...results);
-                resolve(
-                    extendWithPriceProperties(namesAndSymbols, pricing)
-                );
-            });
-    });
+export function fetchData(maxSymbolsInRequest = 50) {
+    let namesAndSymbols = [];
+    return fetch('https://min-api.cryptocompare.com/data/all/coinlist')
+        .then(response => {
+            return response.json();
+        })
+        .then(body => {
+            if (body.Response === 'Error') {
+                throw new Error(`Incorrect respose status: ${body.Message}`);
+            }
+            return getNamesAndSymbols(body.Data);
+        })
+        .then(result => {
+            namesAndSymbols = result;
+            return Promise.all(splitTableToChunks(Object.keys(result), maxSymbolsInRequest).map(
+                chunk => fetchPricingDataChunk(chunk)));
+        })
+        .then(results => {
+            const pricing = Object.assign([], ...results);
+            const finalResult = extendDictionaryWithProperties(
+                namesAndSymbols, pricing, ['price', 'marketCap', 'priceTrend']);
+            return Object.values(finalResult);
+        });
 }
 
-function extendWithPriceProperties(obj, src) {
-    Object.keys(src).forEach(key => {
-        obj[key].price = src[key].price;
-        obj[key].marketCap = src[key].marketCap;
-        obj[key].priceTrend = src[key].priceTrend;
-    });
-    return obj;
+function fetchPricingDataChunk(symbols) {
+    const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${symbols.join()}&tsyms=USD`;
+    return fetch(url)
+        .then(response => {
+            return response.json();
+        })
+        .then(body => {
+            if (body.Response === 'Error') {
+                throw new Error(`Incorrect respose status: ${body.Message}`);
+            }
+            return getPricingData(body.DISPLAY);
+        });
 }
 
 function getNamesAndSymbols(data) {
@@ -50,7 +51,7 @@ function getNamesAndSymbols(data) {
     return result;
 }
 
-function parsePricingData(data) {
+function getPricingData(data) {
     const result = [];
     for (const symbol in data) {
         result[symbol] = {
@@ -60,33 +61,4 @@ function parsePricingData(data) {
         };
     }
     return result;
-}
-
-function getPricingInfo(symbols) {
-    const symbolChunks = splitToChunks(symbols);
-    return Promise.all(symbolChunks.map(chunk => fetchPricingDataChunk(chunk)));
-}
-
-
-function splitToChunks(symbols) {
-    const result = [];
-    let size = 0;
-    while (size < symbols.length) {
-        result.push(symbols.slice(size, size + chunkSize));
-        size = size + chunkSize;
-    }
-    return result;
-}
-
-function fetchPricingDataChunk(symbols, result) {
-    const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${symbols.join()}&tsyms=USD`;
-    return new Promise((resolve, reject) => {
-        fetch(url)
-            .then(response => {
-                return response.json();
-            })
-            .then(body => {
-                resolve(parsePricingData(body.DISPLAY));
-            });
-    });
 }
