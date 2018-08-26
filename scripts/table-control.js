@@ -36,8 +36,21 @@ export function sort(tableId, columnIndex, asc, sortType) {
         }
     });
 
-    for (let i = 0; i < trElements.length; ++i) {
+    for (let i = 0; i < trElements.length; i++) {
         tBodyElement.appendChild(trElements[i]);
+    }
+}
+
+export function filter(tableId, columnIndex, filter, skipText) {
+    const tableBody = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+    const trElements = tableBody.getElementsByTagName("tr");
+    for (let i = 0; i < trElements.length; i++) {
+        const cellContent = trElements[i].cells[columnIndex].textContent.toUpperCase();
+        if (cellContent.indexOf(filter.toUpperCase()) > -1 || filter.toUpperCase() === skipText.toUpperCase()) {
+            trElements[i].classList.remove('hidden');
+        } else {
+            trElements[i].classList.add('hidden');
+        }
     }
 }
 

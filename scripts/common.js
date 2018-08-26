@@ -13,6 +13,7 @@ export function splitTableToChunks(table, maxChunkSize) {
     }
     return result;
 }
+
 /**
  * Copies properties from source to destination dictionary for matching keys
  * @param {*} destination dictionary object to be extended
@@ -23,9 +24,12 @@ export function splitTableToChunks(table, maxChunkSize) {
 export function extendDictionaryWithProperties(destination, source, properties) {
     Object.keys(source).forEach(key => {
         properties.forEach(prop => {
-            destination[key][prop] = source[key][prop];
+            if (!!destination[key]) {
+                destination[key][prop] = source[key][prop];
+            }
         })
     });
     return destination;
 }
+
 

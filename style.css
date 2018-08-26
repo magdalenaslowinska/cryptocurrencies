@@ -22,7 +22,7 @@
     position: relative;
 }
 
-.crypto-table {
+table {
     width: 70%;
     margin: auto;
     margin-top: 1rem;
@@ -31,7 +31,7 @@
     border-spacing: 0;
     font: normal 13px Arial, sans-serif;
 }
-.crypto-table  thead th {
+thead th {
     background-color: #DDEFEF;
     border: solid 1px #4bc8ed;
     color: #333;
@@ -39,14 +39,14 @@
     text-align: left;
     text-shadow: 1px 1px 1px #fff;
 }
-.crypto-table tbody td {
+tbody td {
     border: solid 1px #DDEFEF;
     color: #333;
     padding: 10px;
     text-shadow: 1px 1px 1px #fff;
 }
 
-.crypto-table tbody tr:hover {
+tbody tr:hover {
     background-color: rgba(221, 239, 239, 0.76);
 }
 
@@ -54,16 +54,58 @@
     display: none;
 }
 
-.crypto-table thead th.sorted-asc {
+th.sorted-asc, th.sorted-desc {
     background-image: url('/assets/sort-up.png');
     background-repeat: no-repeat;
     background-size: 15px 15px;
     background-position: right 10px center;
 }
 
-.crypto-table thead th.sorted-desc {
+th.sorted-desc {
     background-image: url('/assets/sort-down.png');
-    background-repeat: no-repeat;
-    background-size: 15px 15px;
-    background-position: right 10px center;
+}
+
+th.clickable:hover {
+    cursor: pointer;
+}
+
+.filters, .header-container {
+    width: 70%;
+    margin: auto;
+    margin-top: 2rem;
+}
+
+input {
+    height: 2rem;
+    border: solid 1px #4bc8ed;
+    padding-left: 10px;
+    color: gray;
+}
+
+input:focus {
+    color: #333;
+}
+
+#inputName {
+    width: 24.8%;
+}
+#inputSymbol {
+    width: 15%;
+}
+
+input.active-filter {
+    font-weight: bold;
+    color: #333;
+}
+
+h1 { 
+    color: #333; 
+    line-height: 48px; 
+    margin: 0; 
+}
+h2 { 
+    color: #333; 
+    font-size: 1.3rem; 
+    margin: 0 0 24px; 
+    font-weight: normal;
 }

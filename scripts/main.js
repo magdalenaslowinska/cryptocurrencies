@@ -1,18 +1,15 @@
-import { initialize as initializeTable, sort as sortTable } from './table-control.js';
+import { initialize as initializeTable, sort as sortTable, filter as filterTable } from './table-control.js';
 import { fetchData } from './data-loader.js';
 
 const propertyNames = ['name', 'symbol', 'price', 'marketCap', 'priceTrend'];
-//     { propertyName: 'name', sortType: 'string' },
-//     { propertyName: 'symbol', sortType: 'string' },
-//     { propertyName: 'price', sortType: 'currency'},
-//     { propertyName: 'marketCap', sortType: ''},
-//     { propertyName: 'priceTrend', sortType: 'currency'},
-// ];
+const searchByNameText = 'Search by name';
+const searchBySymbolText = 'Search by symbol';
 
 window.sort = sort;
-
-//initializeTable('crypto-table', [], propertyNames);
-//toggleSpinner(false);
+window.clearInput = clearInput;
+subscribeToEvents();
+// initializeTable('crypto-table', [], propertyNames);
+// toggleSpinner(false);
 toggleSpinner(true);
 
 fetchData().then(
@@ -34,11 +31,11 @@ function toggleSpinner(on) {
     }
 }
 
-export function sort(target, columnIndex) {
+function sort(target, columnIndex) {
     const sortedAsc = target.classList.contains('sorted-asc');
     clearSortingClasses();
     const sortType = target.dataset.sort;
-    
+
     if (sortedAsc) {
         //sort desc
         target.classList.add('sorted-desc');
@@ -52,6 +49,12 @@ export function sort(target, columnIndex) {
     }
 }
 
+function clearInput(target) {
+    if (target.value.indexOf(searchByNameText) > -1 || target.value.indexOf(searchBySymbolText) > -1) {
+        target.value = '';
+    }
+}
+
 function clearSortingClasses() {
     const sortedAscElements = document.getElementsByClassName('sorted-asc');
     const sortedDescElements = document.getElementsByClassName('sorted-desc');
@@ -61,4 +64,35 @@ function clearSortingClasses() {
         element.classList.remove('sorted-asc');
     })
 }
+
+function subscribeToEvents() {
+    const inputName = document.getElementById('inputName');
+    const inputSymbol = document.getElementById('inputSymbol');
+    let timeoutId;
+    [inputName, inputSymbol].forEach(element => {
+        element.addEventListener('keyup', function () {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(function () {
+                const emptyFieldText = element === inputName ? searchByNameText : searchBySymbolText;
+                if (element.value.trim() === '') {
+                    element.value = emptyFieldText;
+                    element.classList.remove('active-filter');
+                } else {
+                    if (element === inputName) {
+                        inputSymbol.classList.remove('active-filter');
+                        inputSymbol.value = searchBySymbolText;
+                    } else {
+                        inputName.classList.remove('active-filter');
+                        inputName.value = searchByNameText;
+                    }
+                    // const otherElement = element === inputName ? inputSymbol : inputName;
+                    // otherElement.classList.remove('active-filter');
+                    element.classList.add('active-filter');
+                }
+                filterTable('crypto-table', element === inputName ? 0 : 1, element.value, emptyFieldText);
+            }, 400);
+        });
+    });
+}
+
 

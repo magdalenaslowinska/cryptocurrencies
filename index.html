@@ -9,19 +9,30 @@
 <body>
     <div class="main-container">
 
-        <table id="crypto-table" class="hidden crypto-table">
-            <col width="20%"/>
-            <col width="20%"/>
-            <col width="20%"/>
-            <col width="20%"/>
-            <col width="20%"/>
+        <div class="header-container">
+            <h1>Cryptocurrencies list</h1>
+            <h2>Here you can find a list of all available cryptocurrencies. Click on table header to sort, you can also filter
+                by name or symbol.</h2>
+        </div>
+
+        <div class='filters'>
+            <input id='inputName' type="text" value="Search by name" onclick="clearInput(this)"></input>
+            <input id="inputSymbol" type="text" value="Search by symbol" onclick="clearInput(this)"></input>
+        </div>
+        <table id="crypto-table" class="hidden">
+
+            <col width="25%" />
+            <col width="15%" />
+            <col width="20%" />
+            <col width="20%" />
+            <col width="20%" />
             <thead>
                 <tr>
-                    <th data-sort='text' onclick="sort(this, 0)">Name</th>
-                    <th data-sort='text' onclick="sort(this, 1)">Symbol</th>
-                    <th data-sort='currency' onclick="sort(this, 2)">Price</th>
+                    <th data-sort='text' onclick="sort(this, 0)" class="clickable">Name</th>
+                    <th data-sort='text' onclick="sort(this, 1)" class="clickable">Symbol</th>
+                    <th data-sort='currency' onclick="sort(this, 2)" class="clickable">Price</th>
                     <th>Market Cap</th>
-                    <th data-sort='currency' onclick="sort(this, 4)">Price Trend</th>
+                    <th data-sort='currency' onclick="sort(this, 4)" class="clickable">Price Trend</th>
                 </tr>
             </thead>
             <tbody></tbody>
