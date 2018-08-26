@@ -10,12 +10,16 @@ setGlobalEvents();
 subscribeToEvents();
 toggleSpinner(true);
 
-fetchData().then(
-    data => {
+fetchData()
+    .then(data => {
         initializeTable('crypto-table', Object.values(data), propertyNames);
         toggleSpinner(false);
     }
-);
+    )
+    .catch(error => {
+        toggleSpinner(false);
+        alert(error.message);
+    })
 
 
 function setGlobalEvents() {

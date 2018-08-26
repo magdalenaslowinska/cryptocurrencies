@@ -87,10 +87,10 @@ input:focus {
 }
 
 #inputName {
-    width: 24.8%;
+    width: 23.7%;
 }
 #inputSymbol {
-    width: 15%;
+    width: 14%;
 }
 
 input.active-filter {
@@ -115,7 +115,7 @@ html {
 
 @media screen and (max-width: 1024px) {
     #inputName, #inputSymbol {
-        width: 49%;
+        width: 47%;
     }
 }
 
@@ -124,7 +124,7 @@ html {
         font-size: 80%;
     }
     #inputName, #inputSymbol {
-        width: 49%;
+        width: 47%;
     }
     .filters, .header-container, table {
         width: 90%;
