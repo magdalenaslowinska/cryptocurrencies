@@ -32,6 +32,7 @@ describe('Data Loader', function () {
     function getPricingUrl(symbols) {
         return `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${symbols.join()}&tsyms=USD`;
     }
+    
     function getPricingDataResponse(symbols) {
         const body = {
             DISPLAY: {}

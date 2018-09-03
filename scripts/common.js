@@ -33,3 +33,30 @@ export function extendDictionaryWithProperties(destination, source, properties) 
 }
 
 
+export const comparer = { 
+    currency: function compare(a, b, asc) {
+        if (rateEmptyString(a, b) !== undefined) {
+            return rateEmptyString(a, b);
+        }
+        const aValue = Number(a.replace(/(^\$|,)/g, ''));
+        const bValue = Number(b.replace(/(^\$|,)/g, ''));
+        return asc * (aValue - bValue);
+    },
+    text: function compare(a, b, asc) {
+        if (rateEmptyString(a, b) !== undefined) {
+            return rateEmptyString(a, b);
+        }
+        return asc * a.localeCompare(b);
+    }
+
+}
+
+function rateEmptyString(a, b) {
+    if (a === '') {
+        return 1;
+    }
+    if (b === '') {
+        return -1;
+    }
+}
+

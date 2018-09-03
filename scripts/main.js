@@ -2,9 +2,6 @@ import { initialize as initializeTable, sort as sortTable, filter as filterTable
 import { fetchData } from './data-loader.js';
 
 const propertyNames = ['name', 'symbol', 'price', 'marketCap', 'priceTrend'];
-const searchByNameText = 'Search by name';
-const searchBySymbolText = 'Search by symbol';
-
 
 setGlobalEvents();
 subscribeToEvents();
@@ -24,7 +21,6 @@ fetchData()
 
 function setGlobalEvents() {
     window.sort = sort;
-    window.clearInput = clearInput;
 }
 
 function toggleSpinner(on) {
@@ -57,12 +53,6 @@ function sort(target, columnIndex) {
     }
 }
 
-function clearInput(target) {
-    if (target.value.indexOf(searchByNameText) > -1 || target.value.indexOf(searchBySymbolText) > -1) {
-        target.value = '';
-    }
-}
-
 function clearSortingClasses() {
     const sortedAscElements = document.getElementsByClassName('sorted-asc');
     const sortedDescElements = document.getElementsByClassName('sorted-desc');
@@ -81,23 +71,19 @@ function subscribeToEvents() {
         element.addEventListener('keyup', function () {
             clearTimeout(timeoutId);
             timeoutId = setTimeout(function () {
-                const emptyFieldText = element === inputName ? searchByNameText : searchBySymbolText;
                 if (element.value.trim() === '') {
-                    element.value = emptyFieldText;
                     element.classList.remove('active-filter');
                 } else {
                     if (element === inputName) {
                         inputSymbol.classList.remove('active-filter');
-                        inputSymbol.value = searchBySymbolText;
+                        inputSymbol.value = '';
                     } else {
                         inputName.classList.remove('active-filter');
-                        inputName.value = searchByNameText;
+                        inputName.value = '';
                     }
-                    // const otherElement = element === inputName ? inputSymbol : inputName;
-                    // otherElement.classList.remove('active-filter');
                     element.classList.add('active-filter');
                 }
-                filterTable('crypto-table', element === inputName ? 0 : 1, element.value, emptyFieldText);
+                filterTable('crypto-table', element === inputName ? 0 : 1, element.value);
             }, 400);
         });
     });
