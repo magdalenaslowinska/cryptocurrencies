@@ -1,5 +1,5 @@
 # cryptocurrencies
-Simple web application that displays all available cryptucurrencies.
+Simple web application that displays all available cryptucurrencies. Written in plain javascript.
 
 ### Installation
 To install all the dependencies use the following command
